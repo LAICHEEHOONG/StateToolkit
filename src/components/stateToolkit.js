@@ -69,10 +69,10 @@ function StateToolkit() {
     <div
       style={{
         width: "900px",
-        height: '1000px',
+        height: "1000px",
         display: "flex",
         justifyContent: "space-around",
-        alignItems: 'center'
+        alignItems: "center",
       }}
     >
       <div>
@@ -82,15 +82,22 @@ function StateToolkit() {
         <Counter3 props={props} />
       </div>
       <div>
-        <div style={{width: '200px',display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-        <SumButton1 props={props} />
-        <SumButton2 props={props} />
+        <div
+          style={{
+            width: "200px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <SumButton1 props={props} />
+          <SumButton2 props={props} />
         </div>
-  
+
         <div style={{ marginTop: "20px" }}>
           <TextInput props={props} />
         </div>
-        <div style={{marginTop: '20PX'}}>
+        <div style={{ marginTop: "20PX" }}>
           <ResetButton props={props} />
         </div>
       </div>
@@ -215,10 +222,7 @@ const SumButton1 = ({ props }) => {
 
   return (
     <div>
-      <Button
-        variant="contained"
-        onClick={sumAll}
-      >
+      <Button variant="contained" onClick={sumAll}>
         Sum1
       </Button>
       <p>{state.total1}</p>
@@ -235,10 +239,7 @@ const SumButton2 = ({ props }) => {
 
   return (
     <div>
-      <Button
-        variant="contained"
-        onClick={sumAll}
-      >
+      <Button variant="contained" onClick={sumAll}>
         Sum2
       </Button>
       <p>{state.total2}</p>
