@@ -9,7 +9,7 @@ import {
   FormHelperText,
 } from "@mui/material";
 
-/*** PAGE *************************************************************************************************/
+/*** PAGE *********************** PAGE ************************ PAGE **************************************************/
 function StateToolkit() {
   const initState = {
     counter1: 0,
@@ -77,9 +77,9 @@ function StateToolkit() {
     >
       <div>
         <h1>State Toolkit</h1>
-        <Counter1 props={props} />
-        <Counter2 props={props} />
-        <Counter3 props={props} />
+        <Counter1 {...props} />
+        <Counter2 {...props} />
+        <Counter3 {...props} />
       </div>
       <div>
         <div
@@ -90,15 +90,15 @@ function StateToolkit() {
             alignItems: "center",
           }}
         >
-          <SumButton1 props={props} />
-          <SumButton2 props={props} />
+          <SumButton1 {...props} />
+          <SumButton2 {...props} />
         </div>
 
         <div style={{ marginTop: "20px" }}>
-          <TextInput props={props} />
+          <TextInput {...props} />
         </div>
         <div style={{ marginTop: "20PX" }}>
-          <ResetButton props={props} />
+          <ResetButton {...props} />
         </div>
       </div>
     </div>
@@ -107,10 +107,12 @@ function StateToolkit() {
 
 export default StateToolkit;
 
-/*** COMPONENTS *************************************************************************************************/
 
-const Counter1 = ({ props }) => {
-  const { state, slice } = props;
+
+
+/*** COMPONENTS ******************** COMPONENTS ****************** COMPONENTS **********************************************************/
+
+const Counter1 = ({ state, slice }) => {
   function handleIncrementCounter1() {
     slice.add1();
   }
@@ -131,8 +133,7 @@ const Counter1 = ({ props }) => {
   );
 };
 
-const Counter2 = ({ props }) => {
-  const { state, slice } = props;
+const Counter2 = ({ state, slice }) => {
   function handleIncrementCounter2() {
     slice.add2();
   }
@@ -153,9 +154,7 @@ const Counter2 = ({ props }) => {
   );
 };
 
-const Counter3 = ({ props }) => {
-  const { state, slice } = props;
-
+const Counter3 = ({ state, slice }) => {
   function handleIncrementCounter3() {
     slice.add3();
   }
@@ -175,8 +174,7 @@ const Counter3 = ({ props }) => {
   );
 };
 
-const TextInput = ({ props }) => {
-  const { state, slice } = props;
+const TextInput = ({ state, slice }) => {
   const handleInputOnChange = (event) => {
     const inputText = event.target.value;
     slice.inputText(inputText);
@@ -195,9 +193,7 @@ const TextInput = ({ props }) => {
   );
 };
 
-const ResetButton = ({ props }) => {
-  const { slice } = props;
-
+const ResetButton = ({ slice }) => {
   const resetState = () => {
     slice.resetState();
   };
@@ -213,9 +209,7 @@ const ResetButton = ({ props }) => {
   );
 };
 
-const SumButton1 = ({ props }) => {
-  const { state, slice } = props;
-
+const SumButton1 = ({ state, slice }) => {
   const sumAll = () => {
     slice.sumAll1(state.counter1, state.counter2, state.counter3);
   };
@@ -230,9 +224,7 @@ const SumButton1 = ({ props }) => {
   );
 };
 
-const SumButton2 = ({ props }) => {
-  const { state, slice } = props;
-
+const SumButton2 = ({ state, slice }) => {
   const sumAll = () => {
     slice.sumAll2();
   };
@@ -247,7 +239,12 @@ const SumButton2 = ({ props }) => {
   );
 };
 
-/*** TOOLS *************************************************************************************************/
+
+
+
+
+
+/*** TOOLS *************** TOOLS **************** TOOLS ********************* TOOLS *********************************************/
 const setStateHandler = (setState, state, actions) => {
   const wrappedActions = {};
 
