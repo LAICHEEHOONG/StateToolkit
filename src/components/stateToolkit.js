@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import "../App.css";
 import {
   Button,
@@ -18,9 +18,10 @@ function StateToolkit() {
     text: "",
     total1: 0,
     total2: 0,
+    hiddenStateData: false,
   };
   const [state, setState] = useState(initState);
-  const slice = setStateHandler(setState, state, {
+  const handle = setStateHandler(setState, state, {
     add1: () => {
       state.counter1 += 1;
       state.counter2 += 1;
@@ -61,9 +62,12 @@ function StateToolkit() {
         }
       }
     },
+    toggleHidden: () => {
+      state.hiddenStateData = state.hiddenStateData ? false : true;
+    },
   });
 
-  const props = { state, slice };
+  const props = { state, handle };
 
   return (
     <div
@@ -100,6 +104,14 @@ function StateToolkit() {
         <div style={{ marginTop: "20PX" }}>
           <ResetButton {...props} />
         </div>
+        <div style={{ marginTop: "20PX" }}>
+          <Toogle {...props} />
+        </div>
+        {state.hiddenStateData && (
+          <div>
+            <StateData {...props} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -107,38 +119,33 @@ function StateToolkit() {
 
 export default StateToolkit;
 
-
-
-
 /*** COMPONENTS ******************** COMPONENTS ****************** COMPONENTS **********************************************************/
 
-const Counter1 = ({ state, slice }) => {
-  function handleIncrementCounter1() {
-    slice.add1();
-  }
-  function handleDecrementCounter1() {
-    slice.minus1();
-  }
-
+const Counter1 = ({ state, handle }) => {
   return (
     <div className="counter">
-      <Button variant="text" onClick={handleDecrementCounter1}>
+      <Button
+        variant="text"
+        onClick={() => {
+          handle.minus1();
+        }}
+      >
         <div style={{ fontSize: "2rem" }}>-</div>
       </Button>
       <Chip sx={{ fontSize: "2rem" }} label={state.counter1} />
-      <Button variant="text" onClick={handleIncrementCounter1}>
+      <Button variant="text" onClick={handle.add1}>
         <div style={{ fontSize: "2rem" }}>+</div>
       </Button>
     </div>
   );
 };
 
-const Counter2 = ({ state, slice }) => {
+const Counter2 = ({ state, handle }) => {
   function handleIncrementCounter2() {
-    slice.add2();
+    handle.add2();
   }
   function handleDecrementCounter2() {
-    slice.minus2();
+    handle.minus2();
   }
 
   return (
@@ -154,12 +161,12 @@ const Counter2 = ({ state, slice }) => {
   );
 };
 
-const Counter3 = ({ state, slice }) => {
+const Counter3 = ({ state, handle }) => {
   function handleIncrementCounter3() {
-    slice.add3();
+    handle.add3();
   }
   function handleDecrementCounter3() {
-    slice.minus3();
+    handle.minus3();
   }
   return (
     <div className="counter">
@@ -174,10 +181,10 @@ const Counter3 = ({ state, slice }) => {
   );
 };
 
-const TextInput = ({ state, slice }) => {
+const TextInput = ({ state, handle }) => {
   const handleInputOnChange = (event) => {
     const inputText = event.target.value;
-    slice.inputText(inputText);
+    handle.inputText(inputText);
   };
   return (
     <FormControl variant="standard">
@@ -193,9 +200,9 @@ const TextInput = ({ state, slice }) => {
   );
 };
 
-const ResetButton = ({ slice }) => {
+const ResetButton = ({ handle }) => {
   const resetState = () => {
-    slice.resetState();
+    handle.resetState();
   };
 
   return (
@@ -209,9 +216,9 @@ const ResetButton = ({ slice }) => {
   );
 };
 
-const SumButton1 = ({ state, slice }) => {
+const SumButton1 = ({ state, handle }) => {
   const sumAll = () => {
-    slice.sumAll1(state.counter1, state.counter2, state.counter3);
+    handle.sumAll1(state.counter1, state.counter2, state.counter3);
   };
 
   return (
@@ -224,9 +231,9 @@ const SumButton1 = ({ state, slice }) => {
   );
 };
 
-const SumButton2 = ({ state, slice }) => {
+const SumButton2 = ({ state, handle }) => {
   const sumAll = () => {
-    slice.sumAll2();
+    handle.sumAll2();
   };
 
   return (
@@ -239,10 +246,43 @@ const SumButton2 = ({ state, slice }) => {
   );
 };
 
+const Toogle = ({ state, handle }) => {
+  return (
+    <div>
+      <Button variant="contained" onClick={handle.toggleHidden}>
+        Toogle
+      </Button>
+    </div>
+  );
+};
 
+const StateData = ({ state, handle }) => {
+  const arr1 = [];
+  const arr2 = [];
+  for (const key in state) {
+    arr1.push(key);
+    arr2.push(state[key]);
+  }
 
+  useEffect(() => {
+    console.log("Log State");
 
-
+    return () => {
+      console.log("Bye Bye State");
+    };
+  });
+  return (
+    <>
+      {arr1.map((el, index) => {
+        return (
+          <div key={index}>
+            <h3>{`${el}: ${arr2[index]}`}</h3>
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
 /*** TOOLS *************** TOOLS **************** TOOLS ********************* TOOLS *********************************************/
 const setStateHandler = (setState, state, actions) => {
